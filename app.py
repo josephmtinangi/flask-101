@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
@@ -46,7 +46,7 @@ def valid_login(username, password):
 
 
 def log_the_user_in(username):
-    return render_template('home.html', username=username)
+    return redirect(url_for('hello'))
 
 
 if __name__ == '__main__':
