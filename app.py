@@ -41,12 +41,12 @@ def hello(name=None):
     return render_template('hello.html', name=name)
 
 
-def valid_login():
+def valid_login(username, password):
     return True
 
 
-def log_the_user_in():
-    return True
+def log_the_user_in(username):
+    return render_template('home.html', username=username)
 
 
 if __name__ == '__main__':
