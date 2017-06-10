@@ -13,5 +13,10 @@ def about():
     return 'About'
 
 
+@app.route('/user/<username>')
+def show_user_profile(username):
+    return 'User %s' % username
+
+
 if __name__ == '__main__':
     app.run(debug=True)
