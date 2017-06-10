@@ -24,6 +24,10 @@ def logout():
     return redirect(url_for('index'))
 
 
+app.logger.debug('A value for debugging')
+app.logger.warning('A warning occurred')
+app.logger.error('An error occurred')
+
 app.secret_key = '\x91(a`D\x19{V\xef \xaf\xddH\xe9\x14sFErc\xafk\x91\xbd'
 
 if __name__ == '__main__':
