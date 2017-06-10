@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, url_for
 
 app = Flask(__name__)
 
@@ -23,5 +23,12 @@ def show_post(post_id):
     return 'Post %d' % post_id
 
 
-if __name__ == '__main__':
-    app.run(debug=True)
+with app.test_request_context():
+    print(url_for('index'))
+
+    print(url_for('about'))
+
+    print(url_for('login'))
+
+    if __name__ == '__main__':
+        app.run(debug=True)
