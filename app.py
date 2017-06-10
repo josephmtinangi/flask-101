@@ -1,4 +1,4 @@
-from flask import Flask, request, url_for, render_template
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
@@ -36,6 +36,10 @@ def login():
 def hello(name=None):
     return render_template('hello.html', name=name)
 
+
+with app.test_request_context('/hello', method='POST'):
+    assert request.path == '/hello'
+    assert request.method == 'POST'
 
 if __name__ == '__main__':
     app.run(debug=True)
