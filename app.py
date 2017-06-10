@@ -1,58 +1,30 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, session, redirect, url_for, escape, request, render_template
 
 app = Flask(__name__)
 
 
 @app.route('/')
 def index():
-    return 'Index'
+    if 'username' in session:
+        return 'Logged in as %s' % escape(session['username'])
+    return 'You are not logged in'
 
 
-@app.route('/about')
-def about():
-    return 'About'
-
-
-@app.route('/user/<username>')
-def show_user_profile(username):
-    return 'User %s' % username
-
-
-@app.route('/post/<int:post_id>')
-def show_post(post_id):
-    return 'Post %d' % post_id
-
-
-@app.route('/login', methods=['POST', 'GET'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    error = None
     if request.method == 'POST':
-        if valid_login(request.form['username'], request.form['password']):
-            return log_the_user_in(request.form['username'])
-        else:
-            error = 'Invalid username/password'
-
-    return render_template('login.html', error=error)
+        session['username'] = request.form['username']
+        return redirect(url_for('index'))
+    return render_template('login.html')
 
 
-@app.route('/hello/')
-@app.route('/hello/<name>')
-def hello(name=None):
-    return render_template('hello.html', name=name)
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    return redirect(url_for('index'))
 
 
-def valid_login(username, password):
-    return True
-
-
-def log_the_user_in(username):
-    return redirect(url_for('hello'))
-
-
-@app.errorhandler(404)
-def page_not_found(error):
-    return render_template('404.html'), 404
-
+app.secret_key = '\x91(a`D\x19{V\xef \xaf\xddH\xe9\x14sFErc\xafk\x91\xbd'
 
 if __name__ == '__main__':
     app.run(debug=True)
