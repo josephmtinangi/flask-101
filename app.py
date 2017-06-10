@@ -1,4 +1,4 @@
-from flask import Flask, request, url_for
+from flask import Flask, request, url_for, render_template
 
 app = Flask(__name__)
 
@@ -31,7 +31,11 @@ def login():
         return 'show login form'
 
 
-url_for('static', filename='style.css')
+@app.route('/hello/')
+@app.route('/hello/<name>')
+def hello(name=None):
+    return render_template('hello.html', name=name)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
